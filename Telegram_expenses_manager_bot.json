@@ -1,0 +1,268 @@
+{
+  "name": "My workflow 5",
+  "nodes": [
+    {
+      "parameters": {
+        "updates": [
+          "message"
+        ],
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        0
+      ],
+      "id": "66c257c1-e223-4da6-9d97-fe4689ab2f3e",
+      "name": "Telegram Trigger",
+      "webhookId": "8eeca306-5bb7-43f7-8f11-6068bdc7ef91",
+      "credentials": {
+        "telegramApi": {
+          "id": "263RoQg9wP54S4JX",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.message.text }}",
+        "options": {
+          "systemMessage": "=1. Proactive Data Handling:\n\nAutomatically fetch new expense data from linked sources (bank accounts, credit cards, receipts, emails).\n\nNormalize and clean incoming data before processing.\n\nDetect anomalies or duplicates and flag them for review.\n\n2. Smart Categorization:\n\nAnalyze transaction descriptions using AI/NLP to assign categories automatically.\n\nLearn user preferences over time and adjust categorization rules.\n\nHandle ambiguous transactions by either guessing intelligently or prompting the user for clarification.\n\n3. Automated Workflow Execution:\n\nTrigger predefined workflows:\n\nSend notifications for large or unusual transactions.\n\nUpdate Google Sheets, Airtable, or databases automatically.\n\nGenerate daily, weekly, or monthly expense summaries.\n\nSchedule recurring tasks, like subscription tracking or bill reminders.\n\n4. User Interaction & Query Response:\n\nUnderstand natural language queries, e.g.,\n\n“How much did I spend on groceries this month?”\n\n“Show me my top 5 highest expenses last week.”\n\nProvide concise, actionable insights and suggestions.\n\nRespond promptly and politely; escalate issues when clarification is needed.\n\n5. Insight & Advisory Behavior:\n\nHighlight trends, such as rising expenses in specific categories.\n\nSuggest cost-cutting measures or budget adjustments.\n\nForecast future spending based on historical data.\n\n6. Adaptive Learning:\n\nAdjust recommendations based on user feedback.\n\nLearn recurring patterns to predict upcoming transactions or expenses.\n\n7. Security-Conscious Behavior:\n\nNever expose sensitive information inappropriately.\n\nConfirm actions before executing critical operations (like bulk edits).\n\n8. Fail-Safe & Logging:\n\nLog all actions, transactions, and recommendations for audit purposes.\n\nAlert users if workflows fail or data inconsistencies are detected.\n\nTone & Personality:\n\nProfessional, helpful, and concise.\n\nEncouraging and informative without being intrusive.\n\nFriendly tone for queries, but serious when handling sensitive financial data."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        288,
+        0
+      ],
+      "id": "92faaef8-f59d-408b-aa7a-c346e2960f31",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4.1-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        224,
+        224
+      ],
+      "id": "6189f201-2438-4802-b116-fd4e7fb05494",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "Z8Tl6wRWIZDzZKXl",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $json.message.chat.id }}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        352,
+        224
+      ],
+      "id": "87709859-1789-446e-a0c2-88ad2bcbfeff",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1F-yMfB65yZFBkDgAa_xfxvM76kOTL7zU4vtlaD0vXGc",
+          "mode": "list",
+          "cachedResultName": "Untitled spreadsheet",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1F-yMfB65yZFBkDgAa_xfxvM76kOTL7zU4vtlaD0vXGc/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1F-yMfB65yZFBkDgAa_xfxvM76kOTL7zU4vtlaD0vXGc/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "DATE": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('DATE', ``, 'string') }}",
+            "PERSONAL/BUSINESS": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('PERSONAL_BUSINESS', ``, 'string') }}",
+            "DESCRIPTION": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('DESCRIPTION', ``, 'string') }}",
+            "AMOUNT(RUPEE)": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('AMOUNT_RUPEE_', ``, 'string') }}",
+            "TYPE": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('TYPE', ``, 'string') }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "DATE",
+              "displayName": "DATE",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "PERSONAL/BUSINESS",
+              "displayName": "PERSONAL/BUSINESS",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "DESCRIPTION",
+              "displayName": "DESCRIPTION",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "AMOUNT(RUPEE)",
+              "displayName": "AMOUNT(RUPEE)",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "TYPE",
+              "displayName": "TYPE",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.7,
+      "position": [
+        480,
+        256
+      ],
+      "id": "6a72d4bb-0ec9-45ea-822e-c9c758c73726",
+      "name": "Append row in sheet in Google Sheets",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "iUnO0nwfONT6po1T",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+        "text": "={{ $json.output }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        640,
+        0
+      ],
+      "id": "cd384724-ab85-4e94-8aae-e8c8d6f1cba6",
+      "name": "Send a text message",
+      "webhookId": "507da644-410f-4300-b2fe-c6140b097052",
+      "credentials": {
+        "telegramApi": {
+          "id": "263RoQg9wP54S4JX",
+          "name": "Telegram account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Telegram Trigger": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append row in sheet in Google Sheets": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Send a text message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "e0703a25-d4da-4f47-a3fe-911c978b24cd",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "2143bbab0046a29ff233d0225fd33fbe065863ee6490e9e4402496708a049faa"
+  },
+  "id": "mxPCjyIBYJn1S0Yk",
+  "tags": []
+}
