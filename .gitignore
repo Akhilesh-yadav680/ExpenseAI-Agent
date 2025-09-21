@@ -1,3 +1,25 @@
-# Build folder and log file
-build/
-build.log
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.env
+.env/
+venv/
+env/
+.idea/
+.vscode/
+*.sqlite3
+
+# n8n workflow export files
+*.json
+
+# macOS
+.DS_Store
+
+# Logs
+logs/
+*.log
+
+# Credentials
+secrets/
